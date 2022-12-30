@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.Color;
@@ -73,8 +74,8 @@ public class ChessGameBoard extends JPanel{
      *
      * @return ArrayList<GamePiece> the pieces
      */
-    public ArrayList<ChessGamePiece> getAllWhitePieces(){
-        ArrayList<ChessGamePiece> whitePieces = new ArrayList<ChessGamePiece>();
+    public List<ChessGamePiece> getAllWhitePieces(){
+        List<ChessGamePiece> whitePieces = new ArrayList<>();
         for ( int i = 0; i < 8; i++ ){
             for ( int j = 0; j < 8; j++ ){
                 if ( chessCells[i][j].getPieceOnSquare() != null
@@ -92,8 +93,8 @@ public class ChessGameBoard extends JPanel{
      *
      * @return ArrayList<GamePiece> the pieces
      */
-    public ArrayList<ChessGamePiece> getAllBlackPieces(){
-        ArrayList<ChessGamePiece> blackPieces = new ArrayList<ChessGamePiece>();
+    public List<ChessGamePiece> getAllBlackPieces(){
+        List<ChessGamePiece> blackPieces = new ArrayList<>();
         for ( int i = 0; i < 8; i++ ){
             for ( int j = 0; j < 8; j++ ){
                 if ( chessCells[i][j].getPieceOnSquare() != null
@@ -148,7 +149,6 @@ public class ChessGameBoard extends JPanel{
             }
         }
         repaint();
-        //revalidate();
         // only the combination of these two calls work...*shrug*
     }
     /**
@@ -159,7 +159,7 @@ public class ChessGameBoard extends JPanel{
         resetBoard( false );
         for ( int i = 0; i < chessCells.length; i++ ){
             for ( int j = 0; j < chessCells[0].length; j++ ){
-                ChessGamePiece pieceToAdd;
+                ChessGamePiece pieceToAdd = null;
                 if ( i == 1 ) // black pawns
                 {
                     pieceToAdd = new Pawn( this, i, j, ChessGamePiece.BLACK );
@@ -170,28 +170,7 @@ public class ChessGameBoard extends JPanel{
                 }
                 else if ( i == 0 || i == 7 ) // main rows
                 {
-                    int colNum =
-                        i == 0 ? ChessGamePiece.BLACK : ChessGamePiece.WHITE;
-                    if ( j == 0 || j == 7 ){
-                        pieceToAdd = new Rook( this, i, j, colNum );
-                    }
-                    else if ( j == 1 || j == 6 ){
-                        pieceToAdd = new Knight( this, i, j, colNum );
-                    }
-                    else if ( j == 2 || j == 5 ){
-                        pieceToAdd = new Bishop( this, i, j, colNum );
-                    }
-                    else if ( j == 3 ){
-                        pieceToAdd = new King( this, i, j, colNum );
-                    }
-                    else
-                    {
-                        pieceToAdd = new Queen( this, i, j, colNum );
-                    }
-                }
-                else
-                {
-                    pieceToAdd = null;
+                    pieceToAdd = AllocatePiece(i, j);
                 }
                 chessCells[i][j] = new BoardSquare( i, j, pieceToAdd );
                 if ( ( i + j ) % 2 == 0 ){
@@ -206,6 +185,32 @@ public class ChessGameBoard extends JPanel{
             }
         }
     }
+
+    public ChessGamePiece AllocatePiece(int i, int j) {
+
+        ChessGamePiece pieceToAdd;
+        int colNum =
+        i == 0 ? ChessGamePiece.BLACK : ChessGamePiece.WHITE;
+        if ( j == 0 || j == 7 ){
+            pieceToAdd = new Rook( this, i, j, colNum );
+        }
+        else if ( j == 1 || j == 6 ){
+            pieceToAdd = new Knight( this, i, j, colNum );
+        }
+        else if ( j == 2 || j == 5 ){
+            pieceToAdd = new Bishop( this, i, j, colNum );
+        }
+        else if ( j == 3 ){
+            pieceToAdd = new King( this, i, j, colNum );
+        }
+        else
+        {
+            pieceToAdd = new Queen( this, i, j, colNum );
+        }
+
+        return pieceToAdd;
+    }
+
     // ----------------------------------------------------------
     /**
      * Clears the colors on the board.

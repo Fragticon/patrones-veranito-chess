@@ -1,4 +1,3 @@
-import javax.swing.ImageIcon;
 import java.util.ArrayList;
 // -------------------------------------------------------------------------
 /**
@@ -117,28 +116,9 @@ public class Pawn
         }
         return moves;
     }
-    /**
-     * Creates an icon for this piece depending on the piece's color.
-     *
-     * @return ImageIcon the ImageIcon representation of this piece.
-     */
-    @Override
-    public ImageIcon createImageByPieceType(){
-        if ( getColorOfPiece() == ChessGamePiece.WHITE ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/WhitePawn.gif")
-            );            
-        }
-        else if ( getColorOfPiece() == ChessGamePiece.BLACK ){
-            return new ImageIcon(
-                getClass().getResource("chessImages/BlackPawn.gif")
-            );            
-        }
-        else
-        {
-            return new ImageIcon(
-                getClass().getResource("chessImages/default-Unassigned.gif")
-            );           
-        }
+
+	@Override
+    public String getPieceName() {
+        return "Pawn";
     }
 }
